@@ -1,14 +1,13 @@
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.8.9
+Version:	0.9.0
 Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	af2ba9a683a28f75ebdeb91dd58debec
-Patch0:               %{name}-xdps-fix.patch
+# Source0-md5:	a2e912a376315dbd3a188e0d5a617b3c
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	WindowMaker-devel
@@ -84,7 +83,6 @@ Graficzny backend GNUstep - xdps.
 
 %prep
 %setup -q
-%patch0 -p1
 
 # prepare three trees (for art, xdps and xlib backends)
 echo * > files.list
