@@ -8,6 +8,7 @@ Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
 # Source0-md5:	af2ba9a683a28f75ebdeb91dd58debec
+Patch0:               %{name}-xdps-fix.patch
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	WindowMaker-devel
@@ -17,11 +18,10 @@ BuildRequires:	freetype-devel >= 2.1.4
 BuildRequires:	gnustep-gui-devel >= %{version}
 BuildRequires:	libart_lgpl-devel
 BuildRequires:	xft-devel
-Patch0:               %{name}-xdps-fix.patch
 Requires:	OpenGL
 Requires:	gnustep-gui >= %{version}
+Obsoletes:	gnustep-back-devel
 Obsoletes:	gnustep-xgps
-Obsoletes:  gnustep-back-devel
 Conflicts:	gnustep-core
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
