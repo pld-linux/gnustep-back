@@ -1,3 +1,4 @@
+%bcond_with art # Build art backend
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
@@ -13,9 +14,10 @@ BuildRequires:	OpenGL-devel
 BuildRequires:	WindowMaker-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	XFree86-DPS-devel
-BuildRequires:	freetype-devel >= 2.1.4
+%{?with_art:BuildRequires:	freetype-devel >= 2.1.4}
+%{?with_art:BuildRequires:	freetype-devel < 2.1.8}
 BuildRequires:	gnustep-gui-devel >= %{version}
-BuildRequires:	libart_lgpl-devel
+%{?with_art:BuildRequires:	libart_lgpl-devel}
 BuildRequires:	xft-devel
 Requires:	OpenGL
 Requires:	gnustep-gui >= %{version}
@@ -86,15 +88,18 @@ Graficzny backend GNUstep - xdps.
 
 # prepare three trees (for art, xdps and xlib backends)
 echo * > files.list
-install -d back-art back-xdps
+%if %{with art}
+install -d back-art 
 cp -a `cat files.list` back-art
+%endif
+install -d back-xdps
 cp -a `cat files.list` back-xdps
 ln -sf . back-xlib
 
 %build
 . %{_prefix}/System/Library/Makefiles/GNUstep.sh
 
-for g in art xdps xlib ; do
+for g in %{?with_art:art} xdps xlib ; do
 cd back-$g
 if [ "$g" = "xlib" ]; then
 	INC='--with-include-flags=-I/usr/include/freetype2'
@@ -119,7 +124,7 @@ done
 rm -rf $RPM_BUILD_ROOT
 . %{_prefix}/System/Library/Makefiles/GNUstep.sh
 
-for g in art xdps xlib ; do
+for g in %{?with_art:art} xdps xlib ; do
 if [ "$g" = "xlib" ]; then
 	NAME="back"
 else
@@ -157,11 +162,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %attr(755,root,root) %{_prefix}/System/Tools/%{gscpu}/%{gsos}/%{libcombo}/*
 
+%if %{with art}
 %files art
 %defattr(644,root,root,755)
 %dir %{_prefix}/System/Library/Bundles/libgnustep-back-art.bundle
 %{_prefix}/System/Library/Bundles/libgnustep-back-art.bundle/Resources
 %attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-art.bundle/%{gscpu}
+%endif
 
 %files xdps
 %defattr(644,root,root,755)
