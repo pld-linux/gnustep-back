@@ -1,22 +1,21 @@
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.8.5
+Version:	0.8.7
 Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	9020f254f584ed176221321218857b55
-Patch0:		%{name}-art-freetype213.patch
-Patch1:		%{name}-xdps-fix.patch
+# Source0-md5:	1b9e0eae52bce69a979d07a3cbe4019d
+Patch0:		%{name}-xdps-fix.patch
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	WindowMaker-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	XFree86-DPS-devel
-BuildRequires:	freetype-devel >= 2.1.3
-BuildRequires:	gnustep-gui-devel
+BuildRequires:	freetype-devel >= 2.1.4
+BuildRequires:	gnustep-gui-devel >= 0.8.7
 BuildRequires:	libart_lgpl-devel
 BuildRequires:	xft-devel
 Requires:	OpenGL
@@ -59,6 +58,7 @@ Summary:	GNUstep graphics backend - art
 Summary(pl):	Graficzny backend GNUstep - art
 Group:		X11/Libraries
 Requires:	%{name} = %{version}
+Requires:	freetype >= 2.1.4
 Conflicts:	gnustep-core
 
 %description art
@@ -87,7 +87,7 @@ Summary(pl):	Pliki nag³ówkowe backendów GNUstep
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}
 Requires:	XFree86-devel
-Requires:	gnustep-gui-devel
+Requires:	gnustep-gui-devel >= 0.8.7
 Requires:	xft-devel
 Obsoletes:	gnustep-xdps-devel
 Obsoletes:	gnustep-xgps-devel
@@ -106,10 +106,9 @@ xdps).
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 
 %build
-. %{_prefix}/System/Makefiles/GNUstep.sh
+. %{_prefix}/System/Library/Makefiles/GNUstep.sh
 for g in art xdps xlib ; do
 if [ "$g" = "xlib" ]; then
 	INC='--with-include-flags=-I/usr/include/freetype2'
@@ -134,7 +133,7 @@ done
 
 %install
 rm -rf $RPM_BUILD_ROOT
-. %{_prefix}/System/Makefiles/GNUstep.sh
+. %{_prefix}/System/Library/Makefiles/GNUstep.sh
 
 for g in art xdps xlib ; do
 if [ "$g" = "xlib" ]; then
@@ -155,7 +154,7 @@ done
 %{__make} install -C Documentation \
 	GNUSTEP_INSTALLATION_DIR=$RPM_BUILD_ROOT%{_prefix}/System \
 # not (yet?) supported by rpm-compress-doc
-find $RPM_BUILD_ROOT%{_prefix}/System/Documentation -type f | xargs gzip -9nf
+find $RPM_BUILD_ROOT%{_prefix}/System/Library/Documentation -type f | xargs gzip -9nf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -166,7 +165,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog
-%{_prefix}/System/Documentation/Developer/Back
+%docdir %{_prefix}/System/Library/Documentation
+%{_prefix}/System/Library/Documentation/Developer/Back
 
 %dir %{_prefix}/System/Library/Bundles/libgnustep-back.bundle
 %{_prefix}/System/Library/Bundles/libgnustep-back.bundle/Resources
@@ -188,9 +188,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%{_prefix}/System/Headers/gnustep/gsc
-%{_prefix}/System/Headers/gnustep/x11
+%{_prefix}/System/Library/Headers/gnustep/gsc
+%{_prefix}/System/Library/Headers/gnustep/x11
 
-%{_prefix}/System/Headers/gnustep/xlib
-%{_prefix}/System/Headers/gnustep/art
-%{_prefix}/System/Headers/gnustep/xdps
+%{_prefix}/System/Library/Headers/gnustep/xlib
+%{_prefix}/System/Library/Headers/gnustep/art
+%{_prefix}/System/Library/Headers/gnustep/xdps
