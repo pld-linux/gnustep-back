@@ -19,7 +19,7 @@ BuildRequires:	gnustep-gui-devel >= 0.8.7
 BuildRequires:	libart_lgpl-devel
 BuildRequires:	xft-devel
 Requires:	OpenGL
-Requires:	gnustep-gui
+Requires:	gnustep-gui >= 0.8.7
 Obsoletes:	gnustep-xgps
 Conflicts:	gnustep-core
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -107,9 +107,18 @@ xdps).
 %setup -q
 %patch0 -p1
 
+# prepare three trees (for art, xdps and xlib backends)
+echo * > files.list
+install -d back-art back-xdps
+cp -a `cat files.list` back-art
+cp -a `cat files.list` back-xdps
+ln -sf . back-xlib
+
 %build
 . %{_prefix}/System/Library/Makefiles/GNUstep.sh
+
 for g in art xdps xlib ; do
+cd back-$g
 if [ "$g" = "xlib" ]; then
 	INC='--with-include-flags=-I/usr/include/freetype2'
 	NAME="back"
@@ -124,36 +133,33 @@ fi
 
 %{__make} \
 	messages=yes
-cp -f back.make back-$g.make
-# preserve timestamp of config.h
-cp -pf config.h config-$g.h
-
-
-if [ "$g" = "xlib" ]; then
-	NAME="back"
-else
-	NAME="back-$g"
-fi
-# hack - restore timestamps to prevent rebuilding
-cp -pf config-$g.h config.h
-cp -pf config.h Source/%{gscpu}/%{gsos}/config.h
-touch config.status -r config.h
-%{__make} install \
-	GNUSTEP_INSTALLATION_DIR=$RPM_BUILD_ROOT%{_prefix}/System \
-	BUILD_GRAPHICS="$g" \
-	BACKEND_NAME="$NAME"
+cd ..
 done
 
 %{__make} -C Documentation
 
 %install
-
+rm -rf $RPM_BUILD_ROOT
 . %{_prefix}/System/Library/Makefiles/GNUstep.sh
+
+for g in art xdps xlib ; do
+if [ "$g" = "xlib" ]; then
+	NAME="back"
+else
+	NAME="back-$g"
+fi
+%{__make} install -C back-$g \
+	GNUSTEP_INSTALLATION_DIR=$RPM_BUILD_ROOT%{_prefix}/System \
+	BUILD_GRAPHICS="$g" \
+	BACKEND_NAME="$NAME"
+done
 
 %{__make} install -C Documentation \
 	GNUSTEP_INSTALLATION_DIR=$RPM_BUILD_ROOT%{_prefix}/System \
+
 # not (yet?) supported by rpm-compress-doc
-#find $RPM_BUILD_ROOT%{_prefix}/System/Library/Documentation -type f | xargs gzip -9nf
+find $RPM_BUILD_ROOT%{_prefix}/System/Library/Documentation -type f \
+	! -name '*.gz' | xargs gzip -9nf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -166,6 +172,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc ChangeLog
 %docdir %{_prefix}/System/Library/Documentation
 %{_prefix}/System/Library/Documentation/Developer/Back
+%{_prefix}/System/Library/Documentation/man/man1/gpbs.1*
 
 %dir %{_prefix}/System/Library/Bundles/libgnustep-back.bundle
 %{_prefix}/System/Library/Bundles/libgnustep-back.bundle/Resources
