@@ -7,6 +7,7 @@ License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
+# Source0-md5:	9020f254f584ed176221321218857b55
 Patch0:		%{name}-art-freetype213.patch
 Patch1:		%{name}-xdps-fix.patch
 URL:		http://www.gnustep.org/
