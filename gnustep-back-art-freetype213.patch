@@ -1,0 +1,112 @@
+--- gnustep-back-0.8.3/Source/art/ftfont.m.orig	Sun Sep 29 12:25:42 2002
++++ gnustep-back-0.8.3/Source/art/ftfont.m	Sun Dec 29 13:49:33 2002
+@@ -76,9 +76,9 @@
+ @interface FTFontInfo : GSFontInfo <FTFontInfo>
+ {
+   const char *filename;
+-  FTC_ImageDesc imgd;
++  FTC_ImageTypeRec imgd;
+ 
+-  FTC_ImageDesc fallback;
++  FTC_ImageTypeRec fallback;
+ 
+   FTFaceInfo *face_info;
+ }
+@@ -707,7 +707,7 @@
+   int use_sbit;
+ 
+   FTC_SBit sbit;
+-  FTC_ImageDesc cur;
++  FTC_ImageTypeRec cur;
+ 
+   FT_Matrix ftmatrix;
+   FT_Vector ftdelta;
+@@ -756,23 +756,23 @@
+ 	    int rh = face_info->render_hints_hack;
+ 	    if (rh & 0x10000)
+ 	      {
+-		cur.type = ftc_image_grays;
++		cur.flags = FT_LOAD_DEFAULT;
+ 		rh = (rh >> 8) & 0xff;
+ 	      }
+ 	    else
+ 	      {
+-		cur.type = ftc_image_mono;
++		cur.flags = FT_LOAD_MONOCHROME;
+ 		rh = rh & 0xff;
+ 	      }
+ 	    if (rh & 1)
+-	      cur.type |= ftc_image_flag_autohinted;
++	      cur.flags |= FT_LOAD_FORCE_AUTOHINT;
+ 	    if (!(rh & 2))
+-	      cur.type |= ftc_image_flag_unhinted;
++	      cur.flags |= FT_LOAD_NO_HINTING;
+ 	  }
+ 	else if (xx < 8)
+-	  cur.type = ftc_image_grays | ftc_image_flag_unhinted;
++	  cur.flags = FT_LOAD_DEFAULT | FT_LOAD_NO_HINTING;
+ 	else
+-	  cur.type = ftc_image_grays;
++	  cur.flags = FT_LOAD_DEFAULT;
+       }
+     else
+       {
+@@ -1091,7 +1091,7 @@
+ 
+   FT_Glyph g;
+ 
+-  FTC_ImageDesc *cur;
++  FTC_ImageTypeRec *cur;
+ 
+   cmap.face_id = imgd.font.face_id;
+   cmap.u.encoding = ft_encoding_unicode;
+@@ -1122,7 +1122,7 @@
+ - (NSRect) boundingRectForGlyph: (NSGlyph)aGlyph
+ {
+   FTC_CMapDescRec cmap;
+-  FTC_ImageDesc *cur;
++  FTC_ImageTypeRec *cur;
+   unsigned int glyph;
+   FT_BBox bbox;
+ 
+@@ -1168,7 +1168,7 @@
+ 
+   FTC_SBit sbit;
+ 
+-  FTC_ImageDesc *cur;
++  FTC_ImageTypeRec *cur;
+ 
+ 
+   cmap.face_id = imgd.font.face_id;
+@@ -1381,7 +1381,7 @@
+   unichar *uch;
+   int ulen;
+ 
+-  FTC_ImageDesc cur;
++  FTC_ImageTypeRec cur;
+ 
+ 
+   FT_Matrix ftmatrix;
+@@ -1552,7 +1552,7 @@
+   int use_sbit;
+ 
+   FTC_SBit sbit;
+-  FTC_ImageDesc cur;
++  FTC_ImageTypeRec cur;
+ 
+   FT_Matrix ftmatrix;
+   FT_Vector ftdelta;
+@@ -1599,10 +1599,10 @@
+ 
+ /*	if (cur.font.pix_width < 16 && cur.font.pix_height < 16 &&
+ 	    cur.font.pix_width > 6 && cur.font.pix_height > 6)
+-	  cur.type = ftc_image_mono;
++	  cur.flags = FT_LOAD_MONOCHROME;
+ 	else*/
+-	  cur.type = ftc_image_grays, subpixel = YES, cur.font.pix_width *= 3, x *= 3;
+-//			imgd.type|=|ftc_image_flag_unhinted; /* TODO? when? */
++	  cur.flags = FT_LOAD_DEFAULT, subpixel = YES, cur.font.pix_width *= 3, x *= 3;
++//			imgd.flags|=|FT_LOAD_NO_HINTING; /* TODO? when? */
+       }
+     else
+       {
