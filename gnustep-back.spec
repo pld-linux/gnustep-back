@@ -2,7 +2,7 @@ Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
 Version:	0.8.8
-Release:	1
+Release:	2
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
@@ -15,11 +15,11 @@ BuildRequires:	WindowMaker-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	XFree86-DPS-devel
 BuildRequires:	freetype-devel >= 2.1.4
-BuildRequires:	gnustep-gui-devel >= 0.8.7
+BuildRequires:	gnustep-gui-devel >= 0.8.8-2
 BuildRequires:	libart_lgpl-devel
 BuildRequires:	xft-devel
 Requires:	OpenGL
-Requires:	gnustep-gui >= 0.8.7
+Requires:	gnustep-gui >= 0.8.8-2
 Obsoletes:	gnustep-xgps
 Conflicts:	gnustep-core
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -87,7 +87,7 @@ Summary(pl):	Pliki nag³ówkowe backendów GNUstep
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}
 Requires:	XFree86-devel
-Requires:	gnustep-gui-devel >= 0.8.7
+Requires:	gnustep-gui-devel >= 0.8.8-2
 Requires:	xft-devel
 Obsoletes:	gnustep-xdps-devel
 Obsoletes:	gnustep-xgps-devel
@@ -194,9 +194,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%{_prefix}/System/Library/Headers/gnustep/gsc
-%{_prefix}/System/Library/Headers/gnustep/x11
+%{_prefix}/System/Library/Headers/%{libcombo}/gnustep/gsc
+%{_prefix}/System/Library/Headers/%{libcombo}/gnustep/x11
 
-%{_prefix}/System/Library/Headers/gnustep/xlib
-%{_prefix}/System/Library/Headers/gnustep/art
-%{_prefix}/System/Library/Headers/gnustep/xdps
+%{_prefix}/System/Library/Headers/%{libcombo}/gnustep/xlib
+%{_prefix}/System/Library/Headers/%{libcombo}/gnustep/art
+%{_prefix}/System/Library/Headers/%{libcombo}/gnustep/xdps
