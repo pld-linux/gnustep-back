@@ -127,15 +127,8 @@ fi
 cp -f back.make back-$g.make
 # preserve timestamp of config.h
 cp -pf config.h config-$g.h
-done
 
-%{__make} -C Documentation
 
-%install
-rm -rf $RPM_BUILD_ROOT
-. %{_prefix}/System/Library/Makefiles/GNUstep.sh
-
-for g in art xdps xlib ; do
 if [ "$g" = "xlib" ]; then
 	NAME="back"
 else
@@ -150,6 +143,12 @@ touch config.status -r config.h
 	BUILD_GRAPHICS="$g" \
 	BACKEND_NAME="$NAME"
 done
+
+%{__make} -C Documentation
+
+%install
+
+. %{_prefix}/System/Library/Makefiles/GNUstep.sh
 
 %{__make} install -C Documentation \
 	GNUSTEP_INSTALLATION_DIR=$RPM_BUILD_ROOT%{_prefix}/System \
