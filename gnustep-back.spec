@@ -1,21 +1,24 @@
-%bcond_with art # Build art backend
+#
+# Conditional build:
+%bcond_without art	# don't build art backend
+#
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.9.2
-Release:	2
+Version:	0.9.3
+Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	8c011a6663f6d9703ae2d879c317e7d7
+# Source0-md5:	2ee883c140eb7cf47bb284b2f72c1adc
+Patch0:		%{name}-freetype.patch
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	WindowMaker-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	XFree86-DPS-devel
 %{?with_art:BuildRequires:	freetype-devel >= 2.1.4}
-%{?with_art:BuildRequires:	freetype-devel < 2.1.8}
 BuildRequires:	gnustep-gui-devel >= %{version}
 %{?with_art:BuildRequires:	libart_lgpl-devel}
 BuildRequires:	xft-devel
@@ -26,7 +29,7 @@ Obsoletes:	gnustep-xgps
 Conflicts:	gnustep-core
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/lib/GNUstep
+%define		_prefix		/usr/%{_lib}/GNUstep
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
 
@@ -36,7 +39,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		gscpu		ix86
 %else
 # also s/alpha.*/alpha/, but we use only "alpha" arch for now
-%define		gscpu		%{_target_cpu}
+%define		gscpu		%(echo %{_target_cpu} | sed -e 's/amd64/x86_64/;s/ppc/powerpc/')
 %endif
 
 %description
@@ -59,7 +62,7 @@ Ten pakiet zawiera czê¶æ wspóln± i backend graficzny xlib.
 Summary:	GNUstep graphics backend - art
 Summary(pl):	Graficzny backend GNUstep - art
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Requires:	freetype >= 2.1.4
 Conflicts:	gnustep-core
 
@@ -73,7 +76,7 @@ Graficzny backend GNUstep - art.
 Summary:	GNUstep graphics backend - xdps
 Summary(pl):	Graficzny backend GNUstep - xdps
 Group:		X11/Libraries
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 Obsoletes:	gnustep-xdps
 Conflicts:	gnustep-core
 
@@ -85,6 +88,7 @@ Graficzny backend GNUstep - xdps.
 
 %prep
 %setup -q
+%patch0 -p1
 
 # prepare three trees (for art, xdps and xlib backends)
 echo * > files.list
