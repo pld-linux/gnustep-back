@@ -7,7 +7,7 @@ License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	1b9e0eae52bce69a979d07a3cbe4019d
+# Source0-md5:	20c2d2f4f44bac053f7df02025c968d5
 Patch0:		%{name}-xdps-fix.patch
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
