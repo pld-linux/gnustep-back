@@ -1,26 +1,27 @@
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.8.8
-Release:	2
+Version:	0.8.9
+Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	20c2d2f4f44bac053f7df02025c968d5
-Patch0:		%{name}-xdps-fix.patch
+# Source0-md5:	af2ba9a683a28f75ebdeb91dd58debec
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	WindowMaker-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	XFree86-DPS-devel
 BuildRequires:	freetype-devel >= 2.1.4
-BuildRequires:	gnustep-gui-devel >= 0.8.8-2
+BuildRequires:	gnustep-gui-devel >= %{version}
 BuildRequires:	libart_lgpl-devel
 BuildRequires:	xft-devel
+Patch0:               %{name}-xdps-fix.patch
 Requires:	OpenGL
-Requires:	gnustep-gui >= 0.8.8-2
+Requires:	gnustep-gui >= %{version}
 Obsoletes:	gnustep-xgps
+Obsoletes:  gnustep-back-devel
 Conflicts:	gnustep-core
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -80,28 +81,6 @@ GNUstep graphics backend - xdps.
 
 %description xdps -l pl
 Graficzny backend GNUstep - xdps.
-
-%package devel
-Summary:	Headers for GNUstep backends
-Summary(pl):	Pliki nag³ówkowe backendów GNUstep
-Group:		X11/Development/Libraries
-Requires:	%{name} = %{version}
-Requires:	XFree86-devel
-Requires:	gnustep-gui-devel >= 0.8.8-2
-Requires:	xft-devel
-Obsoletes:	gnustep-xdps-devel
-Obsoletes:	gnustep-xgps-devel
-Conflicts:	gnustep-core
-
-%description devel
-This package contains development headers for GNUstep backends. It
-includes also files specific for all x11 graphic backends (xlib,
-art, xdps).
-
-%description devel -l pl
-Ten pakiet zawiera pliki nag³ówkowe dla backendów GNUstep, w tym pliki
-specyficzne dla wszystkich backendów graficznych dla x11 (xlib, art,
-xdps).
 
 %prep
 %setup -q
@@ -191,12 +170,3 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_prefix}/System/Library/Bundles/libgnustep-back-xdps.bundle
 %{_prefix}/System/Library/Bundles/libgnustep-back-xdps.bundle/Resources
 %attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-xdps.bundle/%{gscpu}
-
-%files devel
-%defattr(644,root,root,755)
-%{_prefix}/System/Library/Headers/%{libcombo}/gnustep/gsc
-%{_prefix}/System/Library/Headers/%{libcombo}/gnustep/x11
-
-%{_prefix}/System/Library/Headers/%{libcombo}/gnustep/xlib
-%{_prefix}/System/Library/Headers/%{libcombo}/gnustep/art
-%{_prefix}/System/Library/Headers/%{libcombo}/gnustep/xdps
