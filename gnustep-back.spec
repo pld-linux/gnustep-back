@@ -27,6 +27,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define         _prefix         /usr/lib/GNUstep
 
+%define		_noautoreqdep	libGL.so.1 libGLU.so.1
+
 %define		libcombo	gnu-gnu-gnu
 %define		gsos		linux-gnu
 %ifarch %{ix86}
