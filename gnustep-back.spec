@@ -1,13 +1,13 @@
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.9.0
+Version:	0.9.1
 Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	a2e912a376315dbd3a188e0d5a617b3c
+# Source0-md5:	9279075240738140e11c8f15bb9824d5
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	WindowMaker-devel
