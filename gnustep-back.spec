@@ -15,7 +15,6 @@ Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
 Patch0:		%{name}-freetype.patch
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
-BuildRequires:	WindowMaker-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	XFree86-DPS-devel
 %{?with_art:BuildRequires:	freetype-devel >= 2.1.4}
