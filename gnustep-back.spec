@@ -1,7 +1,7 @@
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.8.7
+Version:	0.8.8
 Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
@@ -154,7 +154,7 @@ done
 %{__make} install -C Documentation \
 	GNUSTEP_INSTALLATION_DIR=$RPM_BUILD_ROOT%{_prefix}/System \
 # not (yet?) supported by rpm-compress-doc
-find $RPM_BUILD_ROOT%{_prefix}/System/Library/Documentation -type f | xargs gzip -9nf
+#find $RPM_BUILD_ROOT%{_prefix}/System/Library/Documentation -type f | xargs gzip -9nf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
