@@ -1,24 +1,23 @@
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.8.3
+Version:	0.8.5
 Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-Patch0:		%{name}-Xft2.patch
-Patch1:		%{name}-art-freetype213.patch
-Patch2:		%{name}-xdps-fix.patch
+Patch0:		%{name}-art-freetype213.patch
+Patch1:		%{name}-xdps-fix.patch
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	WindowMaker-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	XFree86-DPS-devel
-BuildRequires:	Xft-devel
 BuildRequires:	freetype-devel >= 2.1.3
 BuildRequires:	gnustep-gui-devel
 BuildRequires:	libart_lgpl-devel
+BuildRequires:	xft-devel
 Requires:	OpenGL
 Requires:	gnustep-gui
 Obsoletes:	gnustep-xgps
@@ -87,8 +86,8 @@ Summary(pl):	Pliki nag³ówkowe backendów GNUstep
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}
 Requires:	XFree86-devel
-Requires:	Xft-devel
 Requires:	gnustep-gui-devel
+Requires:	xft-devel
 Obsoletes:	gnustep-xdps-devel
 Obsoletes:	gnustep-xgps-devel
 Conflicts:	gnustep-core
@@ -107,7 +106,6 @@ xdps).
 %setup -q
 %patch0 -p1
 %patch1 -p1
-%patch2 -p1
 
 %build
 . %{_prefix}/System/Makefiles/GNUstep.sh
@@ -127,6 +125,8 @@ fi
 %{__make} \
 	messages=yes
 cp -f back.make back-$g.make
+# preserve timestamp of config.h
+cp -pf config.h config-$g.h
 done
 
 %{__make} -C Documentation
@@ -141,6 +141,10 @@ if [ "$g" = "xlib" ]; then
 else
 	NAME="back-$g"
 fi
+# hack - restore timestamps to prevent rebuilding
+cp -pf config-$g.h config.h
+cp -pf config.h Source/%{gscpu}/%{gsos}/config.h
+touch config.status -r config.h
 %{__make} install \
 	GNUSTEP_INSTALLATION_DIR=$RPM_BUILD_ROOT%{_prefix}/System \
 	BUILD_GRAPHICS="$g" \
