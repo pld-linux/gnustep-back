@@ -24,7 +24,7 @@ Obsoletes:	gnustep-xgps
 Conflicts:	gnustep-core
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define         _prefix         /usr/lib/GNUstep
+%define		_prefix		/usr/lib/GNUstep
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
 
@@ -39,7 +39,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 This is a backend for the GNUstep gui Library which allows you to use
-the GNUstep gui Library on an X Windows System (other backends will
+the GNUstep gui Library on an X Window System (other backends will
 be added later to allow you to use the GNUstep gui Library in other
 windowing environments).
 
