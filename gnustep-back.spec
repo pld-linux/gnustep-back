@@ -1,3 +1,4 @@
+# NOTE: when built on ft < 2.1.8, needs ft < 2.1.8 (and vice versa)
 #
 # Conditional build:
 %bcond_without art	# don't build art backend
@@ -5,14 +6,14 @@
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.9.4
+Version:	0.9.5
 Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	9bbd37749e8bdd355533bdf5d1d08050
-Patch0:		%{name}-freetype.patch
+# Source0-md5:	65793b1026b2a06198b8438718309deb
+Patch0:		%{name}-destdir.patch
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
