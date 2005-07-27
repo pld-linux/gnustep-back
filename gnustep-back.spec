@@ -1,25 +1,25 @@
-# NOTE: when built on ft < 2.1.8, needs ft < 2.1.8 (and vice versa)
+# TODO: symlink Helvetica from ghostscript-fonts-std?
 #
 # Conditional build:
 %bcond_without art	# don't build art backend
+%bcond_without cairo	# don't build cairo backend
 #
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.9.5
+Version:	0.10.0
 Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	65793b1026b2a06198b8438718309deb
-Patch0:		%{name}-destdir.patch
+# Source0-md5:	8031e2d93b4d3359e167be620d1925fb
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	XFree86-DPS-devel
-BuildRequires:	cairo-devel
-%{?with_art:BuildRequires:	freetype-devel >= 2.1.4}
+%{?with_cairo:BuildRequires:	cairo-devel < 0.5.0}
+%{?with_art:BuildRequires:	freetype-devel >= 2.1.8}
 BuildRequires:	gnustep-gui-devel >= %{version}
 %{?with_art:BuildRequires:	libart_lgpl-devel}
 BuildRequires:	pkgconfig
@@ -65,7 +65,7 @@ Summary:	GNUstep graphics backend - art
 Summary(pl):	Graficzny backend GNUstep - art
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	freetype >= 2.1.4
+Requires:	freetype >= 2.1.8
 Conflicts:	gnustep-core
 
 %description art
@@ -79,6 +79,7 @@ Summary:	GNUstep graphics backend - cairo
 Summary(pl):	Graficzny backend GNUstep - cairo
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	cairo < 0.5.0
 
 %description cairo
 GNUstep graphics backend - cairo.
@@ -102,7 +103,6 @@ Graficzny backend GNUstep - xdps.
 
 %prep
 %setup -q
-%patch0 -p1
 
 # prepare the trees (for art, cairo, xdps, xlib backends)
 echo * > files.list
@@ -110,8 +110,10 @@ echo * > files.list
 install -d back-art 
 cp -a `cat files.list` back-art
 %endif
+%if %{with cairo}
 install -d back-cairo
 cp -a `cat files.list` back-cairo
+%endif
 install -d back-xdps
 cp -a `cat files.list` back-xdps
 ln -sf . back-xlib
@@ -119,7 +121,7 @@ ln -sf . back-xlib
 %build
 . %{_prefix}/System/Library/Makefiles/GNUstep.sh
 
-for g in %{?with_art:art} cairo xdps xlib ; do
+for g in %{?with_art:art} %{?with_cairo:cairo} xdps xlib ; do
 cd back-$g
 if [ "$g" = "xlib" ]; then
 	INC='--with-include-flags=-I/usr/include/freetype2'
@@ -144,7 +146,7 @@ done
 rm -rf $RPM_BUILD_ROOT
 . %{_prefix}/System/Library/Makefiles/GNUstep.sh
 
-for g in %{?with_art:art} cairo xdps xlib ; do
+for g in %{?with_art:art} %{?with_cairo:cairo} xdps xlib ; do
 if [ "$g" = "xlib" ]; then
 	NAME="back"
 else
@@ -176,28 +178,33 @@ rm -rf $RPM_BUILD_ROOT
 %{_prefix}/System/Library/Documentation/Developer/Back
 %{_prefix}/System/Library/Documentation/man/man1/gpbs.1*
 
-%dir %{_prefix}/System/Library/Bundles/libgnustep-back.bundle
-%{_prefix}/System/Library/Bundles/libgnustep-back.bundle/Resources
-%attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back.bundle/%{gscpu}
+%dir %{_prefix}/System/Library/Bundles/libgnustep-back-010.bundle
+%{_prefix}/System/Library/Bundles/libgnustep-back-010.bundle/Resources
+%attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-010.bundle/%{gscpu}
+
+# XXX: n0190{0,2,4,6}{3,4}.{pfb,afm,pfm} - symlink from ghostscript-fonts-std?
+%{_prefix}/System/Library/Fonts/Helvetica.nfont
 
 %attr(755,root,root) %{_prefix}/System/Tools/%{gscpu}/%{gsos}/%{libcombo}/*
 
 %if %{with art}
 %files art
 %defattr(644,root,root,755)
-%dir %{_prefix}/System/Library/Bundles/libgnustep-back-art.bundle
-%{_prefix}/System/Library/Bundles/libgnustep-back-art.bundle/Resources
-%attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-art.bundle/%{gscpu}
+%dir %{_prefix}/System/Library/Bundles/libgnustep-back-art-010.bundle
+%{_prefix}/System/Library/Bundles/libgnustep-back-art-010.bundle/Resources
+%attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-art-010.bundle/%{gscpu}
 %endif
 
+%if %{with cairo}
 %files cairo
 %defattr(644,root,root,755)
-%dir %{_prefix}/System/Library/Bundles/libgnustep-back-cairo.bundle
-%{_prefix}/System/Library/Bundles/libgnustep-back-cairo.bundle/Resources
-%attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-cairo.bundle/%{gscpu}
+%dir %{_prefix}/System/Library/Bundles/libgnustep-back-cairo-010.bundle
+%{_prefix}/System/Library/Bundles/libgnustep-back-cairo-010.bundle/Resources
+%attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-cairo-010.bundle/%{gscpu}
+%endif
 
 %files xdps
 %defattr(644,root,root,755)
-%dir %{_prefix}/System/Library/Bundles/libgnustep-back-xdps.bundle
-%{_prefix}/System/Library/Bundles/libgnustep-back-xdps.bundle/Resources
-%attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-xdps.bundle/%{gscpu}
+%dir %{_prefix}/System/Library/Bundles/libgnustep-back-xdps-010.bundle
+%{_prefix}/System/Library/Bundles/libgnustep-back-xdps-010.bundle/Resources
+%attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-xdps-010.bundle/%{gscpu}
