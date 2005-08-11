@@ -1,8 +1,8 @@
 # TODO: symlink Helvetica from ghostscript-fonts-std?
 #
 # Conditional build:
-%bcond_without art	# don't build art backend
-%bcond_without cairo	# don't build cairo backend
+%bcond_without	art	# don't build art backend
+%bcond_without	cairo	# don't build cairo backend
 #
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
