@@ -1,14 +1,16 @@
-# TODO: symlink Helvetica from ghostscript-fonts-std?
+# TODO:
+# - symlink Helvetica from ghostscript-fonts-std?
+# - reenable cairo as soon as versions >= 0.5 will be supported
 #
 # Conditional build:
 %bcond_without	art	# don't build art backend
-%bcond_without	cairo	# don't build cairo backend
+%bcond_with	cairo	# don't build cairo backend
 #
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
 Version:	0.10.0
-Release:	1
+Release:	2
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
