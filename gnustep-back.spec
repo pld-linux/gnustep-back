@@ -1,26 +1,25 @@
 # TODO:
 # - symlink Helvetica from ghostscript-fonts-std?
-# - reenable cairo as soon as versions >= 0.5 will be supported
 #
 # Conditional build:
 %bcond_without	art	# don't build art backend
-%bcond_with	cairo	# don't build cairo backend
+%bcond_without	cairo	# don't build cairo backend
 #
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.10.0
-Release:	2
+Version:	0.10.1
+Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	8031e2d93b4d3359e167be620d1925fb
+# Source0-md5:	139052b97ca5111dbcc9dd6b83c8d66f
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	XFree86-DPS-devel
-%{?with_cairo:BuildRequires:	cairo-devel < 0.5.0}
+%{?with_cairo:BuildRequires:	cairo-devel >= 1.0}
 %{?with_art:BuildRequires:	freetype-devel >= 2.1.8}
 BuildRequires:	gnustep-gui-devel >= %{version}
 %{?with_art:BuildRequires:	libart_lgpl-devel}
@@ -81,7 +80,7 @@ Summary:	GNUstep graphics backend - cairo
 Summary(pl):	Graficzny backend GNUstep - cairo
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	cairo < 0.5.0
+Requires:	cairo >= 1.0
 
 %description cairo
 GNUstep graphics backend - cairo.
@@ -106,6 +105,12 @@ Graficzny backend GNUstep - xdps.
 %prep
 %setup -q
 
+%if %{with cairo}
+# hack cairo header - objc doesn't allow #defines in #include
+sed -e 's,FT_FREETYPE_H,<freetype/freetype.h>,' /usr/include/cairo/cairo-ft.h > \
+	Headers/cairo-ft.h
+%endif
+
 # prepare the trees (for art, cairo, xdps, xlib backends)
 echo * > files.list
 %if %{with art}
@@ -126,16 +131,16 @@ ln -sf . back-xlib
 for g in %{?with_art:art} %{?with_cairo:cairo} xdps xlib ; do
 cd back-$g
 if [ "$g" = "xlib" ]; then
-	INC='--with-include-flags=-I/usr/include/freetype2'
 	NAME="back"
 else
-	INC=
 	NAME="back-$g"
+fi
+if [ "$g" = "cairo" ]; then
+	CPPFLAGS="-I/usr/include/freetype2"
 fi
 %configure \
 	--enable-graphics=$g \
-	--with-name=$NAME \
-	$INC
+	--with-name=$NAME
 
 %{__make} \
 	messages=yes
