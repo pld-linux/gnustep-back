@@ -8,13 +8,13 @@
 Summary:	The GNUstep backend bundle
 Summary(pl):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.10.1
+Version:	0.10.2
 Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	139052b97ca5111dbcc9dd6b83c8d66f
+# Source0-md5:	1597e5799a35023a8e5bca050861aa7c
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	XFree86-devel
@@ -126,7 +126,8 @@ cp -a `cat files.list` back-xdps
 ln -sf . back-xlib
 
 %build
-. %{_prefix}/System/Library/Makefiles/GNUstep.sh
+export GNUSTEP_MAKEFILES=%{_prefix}/System/Library/Makefiles
+export GNUSTEP_TARGET_DIR=%{gscpu}/linux-gnu
 
 for g in %{?with_art:art} %{?with_cairo:cairo} xdps xlib ; do
 cd back-$g
@@ -151,7 +152,8 @@ done
 
 %install
 rm -rf $RPM_BUILD_ROOT
-. %{_prefix}/System/Library/Makefiles/GNUstep.sh
+export GNUSTEP_MAKEFILES=%{_prefix}/System/Library/Makefiles
+export GNUSTEP_TARGET_DIR=%{gscpu}/linux-gnu
 
 for g in %{?with_art:art} %{?with_cairo:cairo} xdps xlib ; do
 if [ "$g" = "xlib" ]; then
