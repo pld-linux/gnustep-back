@@ -8,7 +8,7 @@
 %bcond_with	glitz	# glitz support in cairo backend (requires cairo built with glitz)
 #
 Summary:	The GNUstep backend bundle
-Summary(pl):	Pakiet backendowy GNUstep
+Summary(pl.UTF-8):   Pakiet backendowy GNUstep
 Name:		gnustep-back
 Version:	0.11.0
 Release:	1
@@ -48,17 +48,17 @@ windowing environments).
 
 This package contains common part and xlib graphics backend.
 
-%description -l pl
-To jest backend dla biblioteki GNUstep GUI, pozwalaj±cy na u¿ywanie
-biblioteki graficznego interfejsu u¿ytkownika GNUstep pod systemem X
-Window (inne backendy, pozwalaj±ce na u¿ywanie biblioteki GNUstep GUI
-w innych ¶rodowiskach okienkowych, zostan± dodane pó¼niej).
+%description -l pl.UTF-8
+To jest backend dla biblioteki GNUstep GUI, pozwalajÄ…cy na uÅ¼ywanie
+biblioteki graficznego interfejsu uÅ¼ytkownika GNUstep pod systemem X
+Window (inne backendy, pozwalajÄ…ce na uÅ¼ywanie biblioteki GNUstep GUI
+w innych Å›rodowiskach okienkowych, zostanÄ… dodane pÃ³Åºniej).
 
-Ten pakiet zawiera czê¶æ wspóln± i backend graficzny xlib.
+Ten pakiet zawiera czÄ™Å›Ä‡ wspÃ³lnÄ… i backend graficzny xlib.
 
 %package art
 Summary:	GNUstep graphics backend - art
-Summary(pl):	Graficzny backend GNUstep - art
+Summary(pl.UTF-8):   Graficzny backend GNUstep - art
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	freetype >= 2.1.8
@@ -67,12 +67,12 @@ Conflicts:	gnustep-core
 %description art
 GNUstep graphics backend - art.
 
-%description art -l pl
+%description art -l pl.UTF-8
 Graficzny backend GNUstep - art.
 
 %package cairo
 Summary:	GNUstep graphics backend - cairo
-Summary(pl):	Graficzny backend GNUstep - cairo
+Summary(pl.UTF-8):   Graficzny backend GNUstep - cairo
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	cairo >= 1.0
@@ -80,12 +80,12 @@ Requires:	cairo >= 1.0
 %description cairo
 GNUstep graphics backend - cairo.
 
-%description cairo -l pl
+%description cairo -l pl.UTF-8
 Graficzny backend GNUstep - cairo.
 
 %package xdps
 Summary:	GNUstep graphics backend - xdps
-Summary(pl):	Graficzny backend GNUstep - xdps
+Summary(pl.UTF-8):   Graficzny backend GNUstep - xdps
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	gnustep-xdps
@@ -94,7 +94,7 @@ Conflicts:	gnustep-core
 %description xdps
 GNUstep graphics backend - xdps.
 
-%description xdps -l pl
+%description xdps -l pl.UTF-8
 Graficzny backend GNUstep - xdps.
 
 %prep
