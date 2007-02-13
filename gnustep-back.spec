@@ -8,7 +8,7 @@
 %bcond_with	glitz	# glitz support in cairo backend (requires cairo built with glitz)
 #
 Summary:	The GNUstep backend bundle
-Summary(pl.UTF-8):   Pakiet backendowy GNUstep
+Summary(pl.UTF-8):	Pakiet backendowy GNUstep
 Name:		gnustep-back
 Version:	0.11.0
 Release:	1
@@ -58,7 +58,7 @@ Ten pakiet zawiera część wspólną i backend graficzny xlib.
 
 %package art
 Summary:	GNUstep graphics backend - art
-Summary(pl.UTF-8):   Graficzny backend GNUstep - art
+Summary(pl.UTF-8):	Graficzny backend GNUstep - art
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	freetype >= 2.1.8
@@ -72,7 +72,7 @@ Graficzny backend GNUstep - art.
 
 %package cairo
 Summary:	GNUstep graphics backend - cairo
-Summary(pl.UTF-8):   Graficzny backend GNUstep - cairo
+Summary(pl.UTF-8):	Graficzny backend GNUstep - cairo
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	cairo >= 1.0
@@ -85,7 +85,7 @@ Graficzny backend GNUstep - cairo.
 
 %package xdps
 Summary:	GNUstep graphics backend - xdps
-Summary(pl.UTF-8):   Graficzny backend GNUstep - xdps
+Summary(pl.UTF-8):	Graficzny backend GNUstep - xdps
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	gnustep-xdps
