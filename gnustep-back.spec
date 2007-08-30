@@ -10,13 +10,13 @@
 Summary:	The GNUstep backend bundle
 Summary(pl.UTF-8):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.11.0
+Version:	0.12.0
 Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	fece87a22336e233b70e9ce999e1ea10
+# Source0-md5:	1b0252a1b645dd2ca4c78427fb885f1f
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-GLX-devel
 %{?with_dps:BuildRequires:	X11-DPS-devel}
@@ -35,8 +35,6 @@ Obsoletes:	gnustep-back-devel
 Obsoletes:	gnustep-xgps
 Conflicts:	gnustep-core
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define		_prefix		/usr/%{_lib}/GNUstep
 
 %define		_noautoreqdep	libGL.so.1 libGLU.so.1
 
@@ -123,7 +121,7 @@ cp -a `cat files.list` back-xdps
 ln -sf . back-xlib
 
 %build
-export GNUSTEP_MAKEFILES=%{_prefix}/System/Library/Makefiles
+export GNUSTEP_MAKEFILES=%{_datadir}/GNUstep/Makefiles
 export GNUSTEP_FLATTENED=yes
 
 for g in %{?with_art:art} %{?with_cairo:cairo} %{?with_dps:xdps} xlib ; do
@@ -150,7 +148,7 @@ done
 
 %install
 rm -rf $RPM_BUILD_ROOT
-export GNUSTEP_MAKEFILES=%{_prefix}/System/Library/Makefiles
+export GNUSTEP_MAKEFILES=%{_datadir}/GNUstep/Makefiles
 export GNUSTEP_FLATTENED=yes
 
 for g in %{?with_art:art} %{?with_cairo:cairo} %{?with_dps:xdps} xlib ; do
@@ -160,17 +158,17 @@ else
 	NAME="back-$g"
 fi
 %{__make} install -C back-$g \
-	GNUSTEP_INSTALLATION_DIR=$RPM_BUILD_ROOT%{_prefix}/System \
+	DESTDIR=$RPM_BUILD_ROOT \
 	BUILD_GRAPHICS="$g" \
 	BACKEND_NAME="$NAME"
 done
 
 %{__make} install -C Documentation \
-	GNUSTEP_INSTALLATION_DIR=$RPM_BUILD_ROOT%{_prefix}/System \
+	DESTDIR=$RPM_BUILD_ROOT
 
 # not (yet?) supported by rpm-compress-doc
-find $RPM_BUILD_ROOT%{_prefix}/System/Library/Documentation -type f \
-	! -name '*.gz' | xargs gzip -9nf
+find $RPM_BUILD_ROOT%{_datadir}/GNUstep/Documentation \
+	-type f -a ! -name '*.html' -a ! -name '*.gz' -a ! -name '*.jpg' -a ! -name '*.css' | xargs gzip -9nf
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -181,39 +179,40 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc ChangeLog
-%docdir %{_prefix}/System/Library/Documentation
-%{_prefix}/System/Library/Documentation/Developer/Back
-%{_prefix}/System/Library/Documentation/man/man1/gpbs.1*
+%docdir %{_datadir}/GNUstep/Documentation
+%{_datadir}/GNUstep/Documentation/Developer/Back
+%{_mandir}/man1/gpbs.1*
 
-%dir %{_prefix}/System/Library/Bundles/libgnustep-back-011.bundle
-%{_prefix}/System/Library/Bundles/libgnustep-back-011.bundle/Resources
-%attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-011.bundle/libgnustep-back-011
+%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-012.bundle
+%{_libdir}/GNUstep/Bundles/libgnustep-back-012.bundle/Resources
+%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-012.bundle/libgnustep-back-012
 
+%dir %{_libdir}/GNUstep/Fonts
 # XXX: n0190{0,2,4,6}{3,4}.{pfb,afm,pfm} - symlink from ghostscript-fonts-std?
-%{_prefix}/System/Library/Fonts/Helvetica.nfont
+%{_libdir}/GNUstep/Fonts/Helvetica.nfont
 
-%attr(755,root,root) %{_prefix}/System/Tools/*
+%attr(755,root,root) %{_bindir}/*
 
 %if %{with art}
 %files art
 %defattr(644,root,root,755)
-%dir %{_prefix}/System/Library/Bundles/libgnustep-back-art-011.bundle
-%{_prefix}/System/Library/Bundles/libgnustep-back-art-011.bundle/Resources
-%attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-art-011.bundle/libgnustep-back-art-011
+%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-art-012.bundle
+%{_libdir}/GNUstep/Bundles/libgnustep-back-art-012.bundle/Resources
+%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-art-012.bundle/libgnustep-back-art-012
 %endif
 
 %if %{with cairo}
 %files cairo
 %defattr(644,root,root,755)
-%dir %{_prefix}/System/Library/Bundles/libgnustep-back-cairo-011.bundle
-%{_prefix}/System/Library/Bundles/libgnustep-back-cairo-011.bundle/Resources
-%attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-cairo-011.bundle/libgnustep-back-cairo-011
+%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-012.bundle
+%{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-012.bundle/Resources
+%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-012.bundle/libgnustep-back-cairo-012
 %endif
 
 %if %{with dps}
 %files xdps
 %defattr(644,root,root,755)
-%dir %{_prefix}/System/Library/Bundles/libgnustep-back-xdps-011.bundle
-%{_prefix}/System/Library/Bundles/libgnustep-back-xdps-011.bundle/Resources
-%attr(755,root,root) %{_prefix}/System/Library/Bundles/libgnustep-back-xdps-011.bundle/libgnustep-back-xdps-011
+%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-012.bundle
+%{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-012.bundle/Resources
+%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-012.bundle/libgnustep-back-xdps-012
 %endif
