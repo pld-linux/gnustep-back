@@ -11,7 +11,7 @@ Summary:	The GNUstep backend bundle
 Summary(pl.UTF-8):	Pakiet backendowy GNUstep
 Name:		gnustep-back
 Version:	0.13.0
-Release:	2
+Release:	3
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
