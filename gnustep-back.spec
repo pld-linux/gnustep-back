@@ -10,13 +10,13 @@
 Summary:	The GNUstep backend bundle
 Summary(pl.UTF-8):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.13.0
-Release:	3
+Version:	0.16.0
+Release:	1
 License:	LGPL/GPL
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	998466053c8cb651eeadf6d0bf69dd94
+# Source0-md5:	31a16abe7c19914c6fe1300881f6c6ab
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-GLX-devel
 %{?with_dps:BuildRequires:	X11-DPS-devel}
@@ -123,6 +123,7 @@ ln -sf . back-xlib
 %build
 export GNUSTEP_MAKEFILES=%{_datadir}/GNUstep/Makefiles
 export GNUSTEP_FLATTENED=yes
+export GNUSTEP_INSTALLATION_DOMAIN=SYSTEM
 
 for g in %{?with_art:art} %{?with_cairo:cairo} %{?with_dps:xdps} xlib ; do
 cd back-$g
@@ -150,6 +151,7 @@ done
 rm -rf $RPM_BUILD_ROOT
 export GNUSTEP_MAKEFILES=%{_datadir}/GNUstep/Makefiles
 export GNUSTEP_FLATTENED=yes
+export GNUSTEP_INSTALLATION_DOMAIN=SYSTEM
 
 for g in %{?with_art:art} %{?with_cairo:cairo} %{?with_dps:xdps} xlib ; do
 if [ "$g" = "xlib" ]; then
@@ -183,9 +185,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/GNUstep/Documentation/Developer/Back
 %{_mandir}/man1/gpbs.1*
 
-%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-013.bundle
-%{_libdir}/GNUstep/Bundles/libgnustep-back-013.bundle/Resources
-%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-013.bundle/libgnustep-back-013
+%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-016.bundle
+%{_libdir}/GNUstep/Bundles/libgnustep-back-016.bundle/Resources
+%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-016.bundle/libgnustep-back-016
 
 %dir %{_libdir}/GNUstep/Fonts
 # XXX: n0190{0,2,4,6}{3,4}.{pfb,afm,pfm} - symlink from ghostscript-fonts-std?
@@ -196,23 +198,23 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with art}
 %files art
 %defattr(644,root,root,755)
-%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-art-013.bundle
-%{_libdir}/GNUstep/Bundles/libgnustep-back-art-013.bundle/Resources
-%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-art-013.bundle/libgnustep-back-art-013
+%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-art-016.bundle
+%{_libdir}/GNUstep/Bundles/libgnustep-back-art-016.bundle/Resources
+%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-art-016.bundle/libgnustep-back-art-016
 %endif
 
 %if %{with cairo}
 %files cairo
 %defattr(644,root,root,755)
-%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-013.bundle
-%{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-013.bundle/Resources
-%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-013.bundle/libgnustep-back-cairo-013
+%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-016.bundle
+%{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-016.bundle/Resources
+%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-016.bundle/libgnustep-back-cairo-016
 %endif
 
 %if %{with dps}
 %files xdps
 %defattr(644,root,root,755)
-%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-013.bundle
-%{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-013.bundle/Resources
-%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-013.bundle/libgnustep-back-xdps-013
+%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-016.bundle
+%{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-016.bundle/Resources
+%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-016.bundle/libgnustep-back-xdps-016
 %endif
