@@ -10,13 +10,14 @@
 Summary:	The GNUstep backend bundle
 Summary(pl.UTF-8):	Pakiet backendowy GNUstep
 Name:		gnustep-back
-Version:	0.23.0
+Version:	0.24.0
 Release:	1
 License:	LGPL v2+ (libraries), GPL v3+ (applicatinos)
 Vendor:		The GNUstep Project
 Group:		X11/Libraries
 Source0:	ftp://ftp.gnustep.org/pub/gnustep/core/%{name}-%{version}.tar.gz
-# Source0-md5:	bde6f222bc74a0ba02f57fa1908c200e
+# Source0-md5:	0b8393832bd928b9d3ec4eb68d7f6564
+Patch0:		%{name}-format.patch
 URL:		http://www.gnustep.org/
 BuildRequires:	OpenGL-GLX-devel
 %{?with_dps:BuildRequires:	X11-DPS-devel}
@@ -26,6 +27,7 @@ BuildRequires:	OpenGL-GLX-devel
 %{?with_glitz:BuildRequires:	glitz-devel}
 BuildRequires:	gnustep-gui-devel >= %{version}
 %{?with_art:BuildRequires:	libart_lgpl-devel}
+BuildRequires:	libtiff-devel
 BuildRequires:	pkgconfig
 BuildRequires:	xorg-lib-libXcursor-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -41,7 +43,8 @@ Obsoletes:	gnustep-xgps
 Conflicts:	gnustep-core
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_noautoreqdep	libGL.so.1 libGLU.so.1
+# bundles version (echo %{version} | cut -d. -f1,2 | tr -d .)
+%define		bver	024
 
 %description
 This is a backend for the GNUstep gui Library which allows you to use
@@ -102,6 +105,7 @@ Graficzny backend GNUstep - xdps.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %if %{with cairo}
 # hack cairo header - objc doesn't allow #defines in #include
@@ -195,10 +199,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_mandir}/man1/gpbs.1*
 
-%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-023.bundle
-%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-023.bundle/libgnustep-back-023
-%{_libdir}/GNUstep/Bundles/libgnustep-back-023.bundle/Resources
-%{_libdir}/GNUstep/Bundles/libgnustep-back-023.bundle/stamp.make
+%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-%{bver}.bundle
+%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-%{bver}.bundle/libgnustep-back-%{bver}
+%{_libdir}/GNUstep/Bundles/libgnustep-back-%{bver}.bundle/Resources
+%{_libdir}/GNUstep/Bundles/libgnustep-back-%{bver}.bundle/stamp.make
 
 %dir %{_libdir}/GNUstep/Fonts
 # XXX: n0190{0,2,4,6}{3,4}.{pfb,afm,pfm} - symlink from ghostscript-fonts-std?
@@ -207,26 +211,26 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with art}
 %files art
 %defattr(644,root,root,755)
-%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-art-023.bundle
-%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-art-023.bundle/libgnustep-back-art-023
-%{_libdir}/GNUstep/Bundles/libgnustep-back-art-023.bundle/Resources
-%{_libdir}/GNUstep/Bundles/libgnustep-back-art-023.bundle/stamp.make
+%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-art-%{bver}.bundle
+%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-art-%{bver}.bundle/libgnustep-back-art-%{bver}
+%{_libdir}/GNUstep/Bundles/libgnustep-back-art-%{bver}.bundle/Resources
+%{_libdir}/GNUstep/Bundles/libgnustep-back-art-%{bver}.bundle/stamp.make
 %endif
 
 %if %{with cairo}
 %files cairo
 %defattr(644,root,root,755)
-%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-023.bundle
-%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-023.bundle/libgnustep-back-cairo-023
-%{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-023.bundle/Resources
-%{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-023.bundle/stamp.make
+%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-%{bver}.bundle
+%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-%{bver}.bundle/libgnustep-back-cairo-%{bver}
+%{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-%{bver}.bundle/Resources
+%{_libdir}/GNUstep/Bundles/libgnustep-back-cairo-%{bver}.bundle/stamp.make
 %endif
 
 %if %{with dps}
 %files xdps
 %defattr(644,root,root,755)
-%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-023.bundle
-%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-023.bundle/libgnustep-back-xdps-023
-%{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-023.bundle/Resources
-%{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-023.bundle/stamp.make
+%dir %{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-%{bver}.bundle
+%attr(755,root,root) %{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-%{bver}.bundle/libgnustep-back-xdps-%{bver}
+%{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-%{bver}.bundle/Resources
+%{_libdir}/GNUstep/Bundles/libgnustep-back-xdps-%{bver}.bundle/stamp.make
 %endif

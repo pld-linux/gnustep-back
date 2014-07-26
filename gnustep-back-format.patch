@@ -1,0 +1,11 @@
+--- gnustep-back-0.24.0/Tools/gpbs.m.orig	2012-02-14 19:29:51.000000000 +0100
++++ gnustep-back-0.24.0/Tools/gpbs.m	2014-07-26 11:13:23.450533150 +0200
+@@ -64,7 +64,7 @@
+ {
+   if (is_daemon)
+     {
+-      syslog (log_priority | prio, ebuf);
++      syslog (log_priority | prio, "%s", ebuf);
+     }
+   else if (prio == LOG_INFO)
+     {
