@@ -23,7 +23,7 @@ BuildRequires:	OpenGL-GLX-devel
 %{?with_dps:BuildRequires:	X11-DPS-devel}
 %{?with_cairo:BuildRequires:	cairo-devel >= 1.0}
 %{?with_cairo:BuildRequires:	fontconfig-devel}
-%{?with_art:BuildRequires:	freetype-devel >= 2.1.8}
+%{?with_art:BuildRequires:	freetype-devel >= 1:2.1.8}
 %{?with_glitz:BuildRequires:	glitz-devel}
 BuildRequires:	gnustep-gui-devel >= %{version}
 %{?with_art:BuildRequires:	libart_lgpl-devel}
@@ -67,7 +67,7 @@ Summary:	GNUstep graphics backend - art
 Summary(pl.UTF-8):	Graficzny backend GNUstep - art
 Group:		X11/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	freetype >= 2.1.8
+Requires:	freetype >= 1:2.1.8
 Conflicts:	gnustep-core
 
 %description art
