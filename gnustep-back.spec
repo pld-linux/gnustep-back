@@ -105,7 +105,7 @@ Graficzny backend GNUstep - xdps.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 %if %{with cairo}
 # hack cairo header - objc doesn't allow #defines in #include
